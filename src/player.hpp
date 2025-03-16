@@ -13,4 +13,9 @@ class Player : public Ship
     Vector2 GetPosition();
     Vector2 GetDirection();
     bool IsHittingBounds();
+    Color GetColor() { return color; };
+
+  private:
+    float hue;
+    const float hueIncrement = 2.0f;
 };

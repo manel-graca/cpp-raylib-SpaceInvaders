@@ -38,6 +38,6 @@ void Game::Update()
     }
     if (IsKeyDown(KEY_SPACE))
     {
-        bulletsManager.CreateBullet(player.GetPosition(), {10, 10}, 10, RED);
+        bulletsManager.CreateBullet(player.GetPosition(), {10, 10}, 10, player.GetColor());
     }
 }

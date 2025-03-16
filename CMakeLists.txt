@@ -13,6 +13,7 @@ add_executable(cpp-rlib-spaceinvaders
     src/game.cpp
     src/bulletsManager.cpp
     src/enemiesManager.cpp
+    src/colorHelper.cpp
 )
 
 

@@ -1,9 +1,11 @@
 #include "player.hpp"
+#include "ColorHelper.hpp"
 #include <raylib.h>
 
 Player::Player(Vector2 position, float speed, Color color)
     : Ship(position, speed, color)
 {
+    hue = 0.0f;
 }
 
 void Player::Draw()
@@ -13,6 +15,11 @@ void Player::Draw()
 
 void Player::Update()
 {
+    // I wanna do a trippy effect and have the color be changing all the time in the color range
+    hue += hueIncrement;
+    if (hue >= 360.0f)
+        hue -= 360.0f;
+    color = ColorHelper::HueToRGB(hue);
 }
 
 void Player::Move(Vector2 direction)
