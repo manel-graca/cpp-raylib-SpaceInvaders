@@ -1,0 +1,8 @@
+{
+    "name": "cpp-rlib-breakout",
+    "description": "cpp-rlib-breakout",
+    "license": "MIT",
+    "dependencies": [
+        "raylib"
+    ]
+}
