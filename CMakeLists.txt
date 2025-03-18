@@ -13,6 +13,7 @@ add_executable(cpp-rlib-spaceinvaders
     src/bulletsManager.cpp
     src/ship.cpp
     src/player.cpp
+    src/enemy.cpp
 )
 
 target_link_libraries(cpp-rlib-spaceinvaders PRIVATE raylib)

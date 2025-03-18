@@ -1,7 +1,9 @@
 #pragma once
 #include "bulletsManager.hpp"
+#include "enemy.hpp"
 #include "player.hpp"
 #include <raylib.h>
+#include <vector>
 
 class Game
 {
@@ -16,4 +18,5 @@ class Game
   private:
     int score;
     Texture2D bulletTexture;
+    std::vector<Enemy> enemies;
 };
