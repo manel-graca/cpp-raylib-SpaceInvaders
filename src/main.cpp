@@ -6,6 +6,7 @@ int main(int, char **)
     SetTargetFPS(60);
 
     Game game = Game();
+
     while (WindowShouldClose() == false)
     {
         game.Update();

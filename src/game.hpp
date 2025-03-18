@@ -8,6 +8,7 @@ class Game
 {
   public:
     Game();
+    ~Game();
     void Draw();
     void Update();
     BulletsManager bulletsManager;
@@ -16,4 +17,5 @@ class Game
 
   private:
     int score;
+    Texture2D bulletTexture;
 };

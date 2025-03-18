@@ -5,13 +5,13 @@
 class Bullet
 {
   public:
-    Bullet(Vector2 position, Vector2 size, float speed, Color color);
+    Bullet(Vector2 position, float speed, Color color, Texture2D texture);
     void Draw();
     void Update();
 
   private:
     Vector2 position;
-    Vector2 size;
     float speed;
     Color color;
+    Texture2D texture;
 };

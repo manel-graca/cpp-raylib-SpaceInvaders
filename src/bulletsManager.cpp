@@ -1,4 +1,5 @@
 #include "bulletsManager.hpp"
+#include <raylib.h>
 
 BulletsManager::BulletsManager()
 {
@@ -21,12 +22,12 @@ void BulletsManager::Update()
     }
 }
 
-void BulletsManager::CreateBullet(Vector2 position, Vector2 size, float speed, Color color)
+void BulletsManager::CreateBullet(Vector2 position, float speed, Color color, Texture2D texture)
 {
     if (!CanShoot())
         return;
     lastShot = 0.0f;
-    bullets.push_back(Bullet(position, size, speed, color));
+    bullets.push_back(Bullet(position, speed, color, texture));
 }
 
 bool BulletsManager::CanShoot()

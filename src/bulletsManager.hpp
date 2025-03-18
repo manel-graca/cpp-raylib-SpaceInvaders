@@ -9,7 +9,7 @@ class BulletsManager
     BulletsManager();
     void Draw();
     void Update();
-    void CreateBullet(Vector2 posiion, Vector2 size, float speed, Color color);
+    void CreateBullet(Vector2 posiion, float speed, Color color, Texture2D texture);
 
   private:
     std::vector<Bullet> bullets;

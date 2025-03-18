@@ -1,52 +1,55 @@
 #include "player.hpp"
 #include "ColorHelper.hpp"
+#include "ship.hpp"
 #include <raylib.h>
 
-Player::Player(Vector2 position, float speed, Color color)
-    : Ship(position, speed, color)
+Player::Player(Vector2 position, float speed, Color color, std::string texturePath)
+    : Ship(position, speed, color, texturePath)
 {
-    hue = 0.0f;
-}
-
-void Player::Draw()
-{
-    DrawTriangle(position, {position.x - 10, position.y + 10}, {position.x + 10, position.y + 10}, color);
 }
 
 void Player::Update()
 {
-    // I wanna do a trippy effect and have the color be changing all the time in the color range
-    hue += hueIncrement;
-    if (hue >= 360.0f)
-        hue -= 360.0f;
-    color = ColorHelper::HueToRGB(hue);
+    HandleInput();
+
+    position.x += direction.x * speed;
 }
 
-void Player::Move(Vector2 direction)
+void Player::HandleInput()
 {
-    position.x += direction.x * speed;
+    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
+    {
+        EScreenBoundary hit = IsHittingBounds();
+
+        if (hit == EScreenBoundary::LEFT)
+        {
+            SetDirection({0, 0});
+        }
+        else
+        {
+            SetDirection({-1, 0});
+        }
+    }
+    else if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
+    {
+        EScreenBoundary hit = IsHittingBounds();
+
+        if (hit == EScreenBoundary::RIGHT)
+        {
+            SetDirection({0, 0});
+        }
+        else
+        {
+            SetDirection({1, 0});
+        }
+    }
+    else
+    {
+        SetDirection({0, 0});
+    }
 }
 
 void Player::Reset()
 {
     position = {GetScreenWidth() / 2.0f, GetScreenHeight() - 50.0f};
-}
-
-bool Player::IsHittingBounds()
-{
-    if (position.x < 0 || position.x > GetScreenWidth())
-    {
-        return true;
-    }
-    return false;
-}
-
-Vector2 Player::GetPosition()
-{
-    return position;
-}
-
-Vector2 Player::GetDirection()
-{
-    return direction;
 }
