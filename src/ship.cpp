@@ -1,55 +1,19 @@
 #include "ship.hpp"
-#include <iostream>
 #include <raylib.h>
 
-Ship::Ship(Vector2 position, float speed, Color color, std::string texturePath)
+Ship::Ship(int _id, Vector2 _position, float _speed, Vector2 _direction, bool _isAlive)
 {
-    this->position = position;
-    this->speed = speed;
-    this->color = color;
-    this->direction = {0, 0};
-    this->isAlive = true;
-
-    Image image = LoadImage(texturePath.c_str());
-    texture = LoadTextureFromImage(image);
-    UnloadImage(image);
-
-    std::cout << "Ship created! Position: " << position.x << ", " << position.y << std::endl;
+    id = _id;
+    position = _position;
+    speed = _speed;
+    direction = _direction;
+    isAlive = _isAlive;
 }
 
 Ship::~Ship()
 {
     if (texture.id != 0)
         UnloadTexture(texture);
-}
-
-void Ship::Draw()
-{
-    if (texture.id != 0)
-        DrawTexture(texture, position.x, position.y, color);
-    else
-        DrawRectangle(position.x, position.y, 50, 50, color);
-}
-
-void Ship::Update()
-{
-    position.x += direction.x * speed;
-    position.y += direction.y * speed;
-}
-
-void Ship::SetAlive(bool alive)
-{
-    isAlive = alive;
-}
-
-Texture2D Ship::GetTexture()
-{
-    return texture;
-}
-
-void Ship::SetDirection(Vector2 direction)
-{
-    this->direction = direction;
 }
 
 Vector2 Ship::GetPosition()
@@ -60,6 +24,26 @@ Vector2 Ship::GetPosition()
 Vector2 Ship::GetDirection()
 {
     return direction;
+}
+
+float Ship::GetSpeed()
+{
+    return speed;
+}
+
+void Ship::SetIsAlive(bool isAlive)
+{
+    this->isAlive = isAlive;
+}
+
+bool Ship::IsAlive()
+{
+    return isAlive;
+}
+
+Texture2D Ship::GetTexture()
+{
+    return texture;
 }
 
 EScreenBoundary Ship::IsHittingBounds()
@@ -81,4 +65,33 @@ EScreenBoundary Ship::IsHittingBounds()
         return EScreenBoundary::RIGHT;
     }
     return EScreenBoundary::NONE;
+}
+
+EScreenBoundary Ship::IsOutsideBounds()
+{
+    if (position.y - texture.height < 0)
+    {
+        return EScreenBoundary::TOP;
+    }
+    if (position.y + texture.height > GetScreenHeight())
+    {
+        return EScreenBoundary::BOTTOM;
+    }
+    if (position.x - texture.width < 0)
+    {
+        return EScreenBoundary::LEFT;
+    }
+    if (position.x + texture.width > GetScreenWidth())
+    {
+        return EScreenBoundary::RIGHT;
+    }
+    return EScreenBoundary::NONE;
+}
+
+void Ship::Update()
+{
+}
+
+void Ship::Draw()
+{
 }

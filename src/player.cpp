@@ -1,11 +1,23 @@
 #include "player.hpp"
-#include "ColorHelper.hpp"
-#include "ship.hpp"
+#include <iostream>
 #include <raylib.h>
 
-Player::Player(Vector2 position, float speed, Color color, std::string texturePath)
-    : Ship(position, speed, color, texturePath)
+Player::Player()
+    : Ship(1, {GetScreenWidth() / 2.0f, GetScreenHeight() - 50.0f}, 5.0f, {0, 0}, true)
 {
+    Image img = LoadImage("assets/graphics/tiny-spaceships/tiny_ship1.png");
+    texture = LoadTextureFromImage(img);
+    std::cout
+        << "Player texture loaded with ID: " << texture.id << std::endl;
+    UnloadImage(img);
+
+    std::cout
+        << "Player created with ID: " << id << std::endl;
+}
+
+void Player::Draw()
+{
+    DrawTexture(texture, position.x, position.y, WHITE);
 }
 
 void Player::Update()
@@ -23,11 +35,11 @@ void Player::HandleInput()
 
         if (hit == EScreenBoundary::LEFT)
         {
-            SetDirection({0, 0});
+            direction = {0, 0};
         }
         else
         {
-            SetDirection({-1, 0});
+            direction = {-1, 0};
         }
     }
     else if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
@@ -36,16 +48,16 @@ void Player::HandleInput()
 
         if (hit == EScreenBoundary::RIGHT)
         {
-            SetDirection({0, 0});
+            direction = {0, 0};
         }
         else
         {
-            SetDirection({1, 0});
+            direction = {1, 0};
         }
     }
     else
     {
-        SetDirection({0, 0});
+        direction = {0, 0};
     }
 }
 

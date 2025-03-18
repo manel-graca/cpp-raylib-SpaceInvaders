@@ -1,28 +1,29 @@
 #pragma once
 #include "enums.hpp"
 #include <raylib.h>
-#include <string>
 
 class Ship
 {
   public:
-    Ship(Vector2 position, float speed, Color color, std::string texturePath);
+    Ship(int _id, Vector2 _position, float _speed, Vector2 _direction, bool _isAlive);
     ~Ship();
-    void Draw();
-    void Update();
-    void SetDirection(Vector2 direction);
+    int GetID();
     Vector2 GetPosition();
     Vector2 GetDirection();
+    float GetSpeed();
     bool IsAlive();
-    void SetAlive(bool alive);
-    EScreenBoundary IsHittingBounds();
     Texture2D GetTexture();
+    EScreenBoundary IsHittingBounds();
+    EScreenBoundary IsOutsideBounds();
+    virtual void SetIsAlive(bool isAlive);
+    virtual void Update();
+    virtual void Draw();
 
   protected:
-    bool isAlive;
+    int id;
+    float speed;
     Vector2 position;
     Vector2 direction;
-    float speed;
-    Color color;
+    bool isAlive;
     Texture2D texture;
 };

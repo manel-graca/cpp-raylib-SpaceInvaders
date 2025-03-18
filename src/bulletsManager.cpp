@@ -1,4 +1,5 @@
 #include "bulletsManager.hpp"
+#include <iostream>
 #include <raylib.h>
 
 BulletsManager::BulletsManager()
@@ -19,6 +20,19 @@ void BulletsManager::Update()
     for (int i = 0; i < bullets.size(); i++)
     {
         bullets[i].Update();
+    }
+
+    for (auto it = bullets.begin(); it != bullets.end();)
+    {
+        if (!it->IsAlive())
+        {
+            it = bullets.erase(it); // Erase returns the next iterator
+            std::cout << "Bullet erased" << std::endl;
+        }
+        else
+        {
+            ++it; // Move to the next element
+        }
     }
 }
 

@@ -7,15 +7,12 @@ find_package(raylib CONFIG REQUIRED)
 
 add_executable(cpp-rlib-spaceinvaders 
     src/main.cpp
+    src/colorHelper.cpp
+    src/game.cpp
     src/bullet.cpp
+    src/bulletsManager.cpp
     src/ship.cpp
     src/player.cpp
-    src/game.cpp
-    src/bulletsManager.cpp
-    src/enemiesManager.cpp
-    src/colorHelper.cpp
 )
-
-
 
 target_link_libraries(cpp-rlib-spaceinvaders PRIVATE raylib)
