@@ -1,8 +1,9 @@
 #include "bullet.hpp"
 #include <raylib.h>
 
-Bullet::Bullet(Vector2 position, float speed, Color color, Texture2D texture)
+Bullet::Bullet(int id, Vector2 position, float speed, Color color, Texture2D texture)
 {
+    this->id = id;
     this->position = position;
     this->speed = speed;
     this->color = color;
@@ -19,8 +20,11 @@ void Bullet::Draw()
 
 void Bullet::Update()
 {
-    position.y -= speed;
-    if (position.y < 0)
+    if (id == 1)
+        position.y -= speed;
+    else
+        position.y += speed;
+    if (position.y < 0 || position.y > GetScreenHeight())
     {
         isAlive = false;
     }

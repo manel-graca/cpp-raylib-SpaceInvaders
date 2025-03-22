@@ -10,4 +10,9 @@ class Player : public Ship
     void Draw() override;
     void Reset();
     void HandleInput();
+    bool CanShoot();
+
+  private:
+    float lastShot = 0.0f;
+    float fireRate = 0.2f;
 };

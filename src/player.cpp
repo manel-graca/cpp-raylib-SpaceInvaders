@@ -22,6 +22,8 @@ void Player::Draw()
 
 void Player::Update()
 {
+    lastShot += GetFrameTime();
+
     HandleInput();
 
     position.x += direction.x * speed;
@@ -64,4 +66,14 @@ void Player::HandleInput()
 void Player::Reset()
 {
     position = {GetScreenWidth() / 2.0f, GetScreenHeight() - 50.0f};
+}
+
+bool Player::CanShoot()
+{
+    if (lastShot >= fireRate)
+    {
+        lastShot = 0.0f;
+        return true;
+    }
+    return false;
 }

@@ -19,6 +19,7 @@ class Ship
     virtual void Update();
     virtual void Draw();
     Rectangle GetRectangleRect();
+    int GetID() const { return id; }
 
   protected:
     int id;

@@ -7,14 +7,14 @@ class BulletsManager
 {
   public:
     BulletsManager();
+    ~BulletsManager();
     void Draw();
     void Update();
-    void CreateBullet(Vector2 posiion, float speed, Color color, Texture2D texture);
+    void CreateBullet(int id, Vector2 posiion, float speed, Color color, Texture2D texture);
     std::vector<Bullet> &GetBullets();
+    Texture2D GetEnemyBulletTexture();
 
   private:
     std::vector<Bullet> bullets;
-    bool CanShoot();
-    float lastShot = 0.0f;
-    float fireRate = 0.2f;
+    Texture2D enemyBulletTexture;
 };

@@ -4,6 +4,14 @@
 
 BulletsManager::BulletsManager()
 {
+    Image bulletImage = LoadImage("assets/graphics/bullet.png");
+    enemyBulletTexture = LoadTextureFromImage(bulletImage);
+    UnloadImage(bulletImage);
+}
+
+BulletsManager::~BulletsManager()
+{
+    UnloadTexture(enemyBulletTexture);
 }
 
 void BulletsManager::Draw()
@@ -16,7 +24,6 @@ void BulletsManager::Draw()
 
 void BulletsManager::Update()
 {
-    lastShot += GetFrameTime();
     for (int i = 0; i < bullets.size(); i++)
     {
         bullets[i].Update();
@@ -36,20 +43,17 @@ void BulletsManager::Update()
     }
 }
 
-void BulletsManager::CreateBullet(Vector2 position, float speed, Color color, Texture2D texture)
+void BulletsManager::CreateBullet(int id, Vector2 position, float speed, Color color, Texture2D texture)
 {
-    if (!CanShoot())
-        return;
-    lastShot = 0.0f;
-    bullets.push_back(Bullet(position, speed, color, texture));
-}
-
-bool BulletsManager::CanShoot()
-{
-    return lastShot >= fireRate;
+    bullets.push_back(Bullet(id, position, speed, color, texture));
 }
 
 std::vector<Bullet> &BulletsManager::GetBullets()
 {
     return bullets; // Return a reference to the original vector
+}
+
+Texture2D BulletsManager::GetEnemyBulletTexture()
+{
+    return enemyBulletTexture;
 }
