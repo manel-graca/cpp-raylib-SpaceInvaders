@@ -26,7 +26,7 @@ void Bullet::Update()
     }
 }
 
-bool Bullet::IsAlive()
+void Bullet::SetIsAlive(bool isAlive)
 {
-    return isAlive;
+    this->isAlive = isAlive;
 }

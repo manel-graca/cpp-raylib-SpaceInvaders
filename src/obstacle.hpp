@@ -6,6 +6,9 @@ class Obstacle
     Obstacle(int id, Vector2 position, float size);
     ~Obstacle();
     void Draw();
+    Vector2 GetPosition() const;
+    float GetSize() const;
+    Rectangle GetCollisionRect();
 
   private:
     int id;

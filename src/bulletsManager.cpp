@@ -48,3 +48,8 @@ bool BulletsManager::CanShoot()
 {
     return lastShot >= fireRate;
 }
+
+std::vector<Bullet> &BulletsManager::GetBullets()
+{
+    return bullets; // Return a reference to the original vector
+}

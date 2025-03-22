@@ -2,9 +2,8 @@
 #include <string>
 
 Enemy::Enemy(int _id, Vector2 _position, Vector2 _direction, float _speed)
-    : Ship(_id, _position, _speed, _direction, true) // Call the base class constructor
+    : Ship(_id, _position, _speed, _direction, true)
 {
-    // Additional initialization for Enemy (if needed)
     std::string filePath = "assets/graphics/tiny-spaceships/tiny_ship" + std::to_string(id) + ".png";
     Image img = LoadImage(filePath.c_str());
     texture = LoadTextureFromImage(img);
@@ -20,4 +19,14 @@ void Enemy::Update()
 void Enemy::Draw()
 {
     DrawTexture(texture, position.x, position.y, WHITE);
+}
+
+void Enemy::TakeDamage(int damage)
+{
+    health -= damage;
+
+    if (health <= 0)
+    {
+        SetIsAlive(false);
+    }
 }

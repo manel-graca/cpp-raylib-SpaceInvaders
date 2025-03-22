@@ -36,16 +36,6 @@ void Ship::SetIsAlive(bool isAlive)
     this->isAlive = isAlive;
 }
 
-bool Ship::IsAlive()
-{
-    return isAlive;
-}
-
-Texture2D Ship::GetTexture()
-{
-    return texture;
-}
-
 EScreenBoundary Ship::IsHittingBounds()
 {
     if (position.y < 0)
@@ -94,4 +84,9 @@ void Ship::Update()
 
 void Ship::Draw()
 {
+}
+
+Rectangle Ship::GetRectangleRect()
+{
+    return Rectangle{position.x, position.y, (float)texture.width, (float)texture.height};
 }

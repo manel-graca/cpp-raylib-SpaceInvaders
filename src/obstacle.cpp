@@ -21,3 +21,18 @@ void Obstacle::Draw()
     else
         DrawRectangle(position.x, position.y, size, size, WHITE);
 }
+
+Vector2 Obstacle::GetPosition() const
+{
+    return position;
+}
+
+float Obstacle::GetSize() const
+{
+    return size;
+}
+
+Rectangle Obstacle::GetCollisionRect()
+{
+    return Rectangle{position.x + (float)texture.width / 3, position.y, (float)texture.width / 3, (float)texture.height / 2};
+}

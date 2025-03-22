@@ -11,13 +11,14 @@ class Ship
     Vector2 GetPosition();
     Vector2 GetDirection();
     float GetSpeed();
-    bool IsAlive();
-    Texture2D GetTexture();
+    bool IsAlive() const { return isAlive; }
+    Texture2D GetTexture() const { return texture; }
     EScreenBoundary IsHittingBounds();
     EScreenBoundary IsOutsideBounds();
     virtual void SetIsAlive(bool isAlive);
     virtual void Update();
     virtual void Draw();
+    Rectangle GetRectangleRect();
 
   protected:
     int id;
