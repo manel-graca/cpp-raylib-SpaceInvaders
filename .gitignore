@@ -55,3 +55,15 @@ compile_commands.json
 /out/
 .vscode/tasks.json
 .vscode/launch.json
+.vs/cpp-raylib-SpaceInvaders/v17/ipch/AutoPCH/b37de0a1596083b4/MAIN.ipch
+.gitignore
+.vs/cpp-raylib-SpaceInvaders/v17/Browse.VC.db
+.vs/cpp-raylib-SpaceInvaders/v17/DocumentLayout.json
+.vs/cpp-raylib-SpaceInvaders/v17/.wsuo
+.vs/cpp-raylib-SpaceInvaders/FileContentIndex/1c620750-606a-4a03-a113-d33aa6f34567.vsidx
+.gitignore
+.vs/slnx.sqlite
+.vs/ProjectSettings.json
+.gitignore
+.vs/CMake Overview
+.vs/VSWorkspaceState.json
