@@ -8,8 +8,15 @@ Game::Game()
     bulletTexture = LoadTextureFromImage(bulletImage);
     UnloadImage(bulletImage);
 
-    Enemy enemy = Enemy(2, {GetScreenWidth() / 2.0f, 50.0f}, {0, 1}, 2.0f);
-    enemies.push_back(enemy);
+    // 2, {GetScreenWidth() / 2.0f, 50.0f}, {0, 1}, 2.0f
+    enemies.push_back(std::make_unique<Enemy>(2, Vector2{GetScreenWidth() / 2.0f, 50.0f}, Vector2{0, 1}, 2.0f));
+
+    for (int i = 0; i < 3; i++)
+    {
+        float x = GetScreenWidth() / 2.0f - 100.0f + i * 25;
+        float y = GetScreenHeight() - 100;
+        obstacles.push_back(std::make_unique<Obstacle>(i, Vector2{x, y}, 0.1f));
+    }
 }
 
 Game::~Game()
@@ -17,7 +24,7 @@ Game::~Game()
     UnloadTexture(bulletTexture);
     for (int i = 0; i < enemies.size(); i++)
     {
-        UnloadTexture(enemies[i].GetTexture());
+        UnloadTexture(enemies[i]->GetTexture());
     }
 }
 
@@ -28,7 +35,12 @@ void Game::Draw()
 
     for (int i = 0; i < enemies.size(); i++)
     {
-        enemies[i].Draw();
+        enemies[i]->Draw();
+    }
+
+    for (int i = 0; i < obstacles.size(); i++)
+    {
+        obstacles[i]->Draw();
     }
 }
 
@@ -39,7 +51,7 @@ void Game::Update()
 
     for (int i = 0; i < enemies.size(); i++)
     {
-        enemies[i].Update();
+        enemies[i]->Update();
     }
 
     if (IsKeyDown(KEY_SPACE))

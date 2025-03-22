@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.31.6)
+cmake_minimum_required(VERSION 3.21.7)
 project(cpp-rlib-spaceinvaders VERSION 0.1.0 LANGUAGES C CXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -14,6 +14,7 @@ add_executable(cpp-rlib-spaceinvaders
     src/ship.cpp
     src/player.cpp
     src/enemy.cpp
+    src/obstacle.cpp
 )
 
 target_link_libraries(cpp-rlib-spaceinvaders PRIVATE raylib)
