@@ -6,7 +6,7 @@
 class Enemy : public Ship
 {
   public:
-    Enemy(int _id, Vector2 _position, Vector2 _direction, float _speed, BulletsManager &_bulletsManager);
+    Enemy(int _id, Vector2 _position, Vector2 _direction, float _speed, BulletsManager &_bulletsManager, Texture2D _texture);
     void Update() override;
     void Draw() override;
     void TakeDamage(int damage);

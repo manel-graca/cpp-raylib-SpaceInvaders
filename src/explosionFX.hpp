@@ -5,12 +5,9 @@
 class ExplosionFX
 {
   public:
-    ExplosionFX(Vector2 position, float scale = 1.0f);
-    ~ExplosionFX();
-
+    ExplosionFX(Vector2 position, float scale, Texture2D texture);
     void Update();
     void Draw();
-
     bool IsFinished() const;
 
   private:

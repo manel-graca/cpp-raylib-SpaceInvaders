@@ -1,13 +1,9 @@
 #include "enemy.hpp"
-#include <string>
 
-Enemy::Enemy(int _id, Vector2 _position, Vector2 _direction, float _speed, BulletsManager &_bulletsManager)
+Enemy::Enemy(int _id, Vector2 _position, Vector2 _direction, float _speed, BulletsManager &_bulletsManager, Texture2D _texture)
     : Ship(_id, _position, _speed, _direction, true), bulletsManager(_bulletsManager), health(1), fireRate(1.0f), lastShot(0.0f)
 {
-    std::string filePath = "assets/graphics/tiny-spaceships/tiny_ship" + std::to_string(id) + ".png";
-    Image img = LoadImage(filePath.c_str());
-    texture = LoadTextureFromImage(img);
-    UnloadImage(img);
+    texture = _texture; // Use preloaded texture
 }
 
 void Enemy::Update()

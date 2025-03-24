@@ -3,27 +3,33 @@
 #include "obstacle.hpp"
 #include <algorithm>
 #include <raylib.h>
+#include <raymath.h>
 #include <vector>
 
 Game::Game()
     : player(), bulletsManager(), score(0), lastEnemySpawnTime(0.0f), enemySpawnInterval(1.0f)
 {
-    Image bulletImage = LoadImage("assets/graphics/bullet1.png");
-    bulletTexture = LoadTextureFromImage(bulletImage);
-    UnloadImage(bulletImage);
+    textureManager.LoadTexture("bullet", "assets/graphics/bullet1.png");
+    textureManager.LoadTexture("enemyBullet", "assets/graphics/bullet.png");
+    textureManager.LoadTexture("explosion", "assets/graphics/explosion_red.png");
 
-    enemies.push_back(std::make_unique<Enemy>(2, GetEnemySpawnPosition(), Vector2{0, 1}, 0.5f, bulletsManager));
+    constexpr int totalEnemyTextures = 19;
+    for (int i = 0; i < totalEnemyTextures; i++)
+    {
+        std::string textureKey = "enemy" + std::to_string(i);
+        std::string texturePath = "assets/graphics/tiny-spaceships/tiny_ship" + std::to_string(i) + ".png";
+        textureManager.LoadTexture(textureKey, texturePath);
+    }
+
+    bulletsManager.SetEnemyBulletTexture(textureManager.GetTexture("enemyBullet"));
+    enemies.push_back(std::make_unique<Enemy>(2, GetEnemySpawnPosition(), Vector2{0, 1}, 0.5f, bulletsManager, textureManager.GetTexture("enemy2")));
 
     CreateObstacles();
 }
 
 Game::~Game()
 {
-    UnloadTexture(bulletTexture);
-    for (int i = 0; i < enemies.size(); i++)
-    {
-        UnloadTexture(enemies[i]->GetTexture());
-    }
+    textureManager.UnloadAllTextures();
 }
 
 void Game::Draw()
@@ -61,7 +67,8 @@ void Game::Update()
         if (lastEnemySpawnTime >= enemySpawnInterval)
         {
             lastEnemySpawnTime = 0.0f;
-            enemies.push_back(std::make_unique<Enemy>(2, GetEnemySpawnPosition(), Vector2{0, 1}, 0.5f, bulletsManager));
+            std::string textureKey = "enemy" + std::to_string(GetRandomValue(0, 18));
+            enemies.push_back(std::make_unique<Enemy>(2, GetEnemySpawnPosition(), Vector2{0, 1}, 0.5f, bulletsManager, textureManager.GetTexture(textureKey)));
         }
     }
 
@@ -75,19 +82,14 @@ void Game::Update()
     for (auto &enemy : enemies)
     {
         Rectangle enemyRect = enemy->GetRectangleRect();
-        for (auto &bullet : bulletsManager.GetBullets())
-        {
-            if (bullet.GetID() != 1)
-                continue;
+        HandleBulletCollision(enemyRect, 2.0f, [&enemy]()
+                              { enemy->TakeDamage(1); });
+    }
 
-            Rectangle bulletRect = {bullet.GetPosition().x, bullet.GetPosition().y, (float)bullet.GetTexture().width, (float)bullet.GetTexture().height};
-            if (CheckCollisionRecs(enemyRect, bulletRect))
-            {
-                explosions.push_back(std::make_unique<ExplosionFX>(enemy->GetPosition(), 2.0f));
-                enemy->TakeDamage(1);
-                bullet.SetIsAlive(false);
-            }
-        }
+    for (auto &obstacle : obstacles)
+    {
+        Rectangle obstacleRect = obstacle->GetCollisionRect();
+        HandleBulletCollision(obstacleRect, 1.25f, []() {});
     }
 
     enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
@@ -141,7 +143,7 @@ void Game::HandlePlayerShoot()
     {
         Vector2 playerPos = player.GetPosition();
         bulletsManager.CreateBullet(1, {playerPos.x + player.GetTexture().width / 4.0f, playerPos.y},
-                                    10, WHITE, bulletTexture);
+                                    10, WHITE, textureManager.GetTexture("bullet"));
     }
 }
 
@@ -149,4 +151,21 @@ Vector2 Game::GetEnemySpawnPosition()
 {
     float x = GetRandomValue(0, GetScreenWidth() - 50);
     return {x, -50};
+}
+
+void Game::HandleBulletCollision(Rectangle targetRect, float explosionScale, std::function<void()> onCollision)
+{
+    for (auto &bullet : bulletsManager.GetBullets())
+    {
+        if (bullet.GetID() != 1)
+            continue;
+
+        Rectangle bulletRect = bullet.GetCollisionRect();
+        if (CheckCollisionRecs(targetRect, bulletRect))
+        {
+            explosions.push_back(std::make_unique<ExplosionFX>(bullet.GetPosition(), explosionScale, textureManager.GetTexture("explosion")));
+            bullet.SetIsAlive(false);
+            onCollision();
+        }
+    }
 }

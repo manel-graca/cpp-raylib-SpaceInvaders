@@ -57,3 +57,8 @@ Texture2D BulletsManager::GetEnemyBulletTexture()
 {
     return enemyBulletTexture;
 }
+
+void BulletsManager::SetEnemyBulletTexture(Texture2D texture)
+{
+    enemyBulletTexture = texture;
+}

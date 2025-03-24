@@ -1,21 +1,16 @@
 #include "explosionFX.hpp"
 #include <raylib.h>
 
-ExplosionFX::ExplosionFX(Vector2 position, float scale)
+ExplosionFX::ExplosionFX(Vector2 position, float scale, Texture2D texture)
 {
     this->position = position;
     this->scale = scale;
     this->currentFrame = 0;
     this->framesCounter = 0.0f;
     this->frameSpeed = 30.0f; // (frames per second)
-    this->texture = LoadTexture("assets/graphics/explosion_red.png");
+    this->texture = texture;
     this->isFinished = false;
     this->offset = {15, 15};
-}
-
-ExplosionFX::~ExplosionFX()
-{
-    UnloadTexture(texture);
 }
 
 void ExplosionFX::Update()
@@ -25,7 +20,7 @@ void ExplosionFX::Update()
     {
         framesCounter = 0.0f;
         currentFrame += 1;
-        if (currentFrame > 7)
+        if (currentFrame > 6)
         {
             isFinished = true;
             currentFrame = 7;

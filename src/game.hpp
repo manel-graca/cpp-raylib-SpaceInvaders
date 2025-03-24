@@ -4,6 +4,8 @@
 #include "explosionFX.hpp"
 #include "obstacle.hpp"
 #include "player.hpp"
+#include "texturesManager.hpp"
+#include <functional>
 #include <memory>
 #include <raylib.h>
 #include <vector>
@@ -11,7 +13,6 @@
 class Game
 {
   public:
-    void extracted();
     Game();
     ~Game();
     void Draw();
@@ -21,10 +22,11 @@ class Game
     Player player;
     BulletsManager bulletsManager;
     Vector2 GetEnemySpawnPosition();
+    void HandleBulletCollision(Rectangle target, float targetScale, std::function<void()> onCollision);
 
   private:
     int score;
-    Texture2D bulletTexture;
+    TextureManager textureManager;
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<std::unique_ptr<Obstacle>> obstacles;
     std::vector<std::unique_ptr<ExplosionFX>> explosions;

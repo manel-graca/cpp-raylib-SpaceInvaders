@@ -13,6 +13,7 @@ class BulletsManager
     void CreateBullet(int id, Vector2 posiion, float speed, Color color, Texture2D texture);
     std::vector<Bullet> &GetBullets();
     Texture2D GetEnemyBulletTexture();
+    void SetEnemyBulletTexture(Texture2D texture);
 
   private:
     std::vector<Bullet> bullets;

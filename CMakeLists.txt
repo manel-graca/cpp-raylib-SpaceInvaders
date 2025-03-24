@@ -16,6 +16,7 @@ add_executable(cpp-rlib-spaceinvaders
     src/enemy.cpp
     src/obstacle.cpp
     src/explosionFX.cpp
+    src/texturesManager.cpp
 )
 
 target_link_libraries(cpp-rlib-spaceinvaders PRIVATE raylib)
