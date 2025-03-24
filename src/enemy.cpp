@@ -14,7 +14,7 @@ void Enemy::Update()
 {
     if (CanShoot())
     {
-        bulletsManager.CreateBullet(id, Vector2{position.x, position.y}, 4.0f, WHITE, bulletsManager.GetEnemyBulletTexture());
+        bulletsManager.CreateBullet(id, Vector2{position.x + texture.width / 4.0f, position.y}, 4.0f, WHITE, bulletsManager.GetEnemyBulletTexture());
     }
 
     position.x += direction.x * speed;
