@@ -8,7 +8,6 @@
 #include <raylib.h>
 #include <vector>
 
-
 class Game
 {
   public:
@@ -31,4 +30,5 @@ class Game
     std::vector<std::unique_ptr<ExplosionFX>> explosions;
     float lastEnemySpawnTime = 0.0f;
     float enemySpawnInterval = 1.0f;
+    int maxEnemiesAlive = 8;
 };

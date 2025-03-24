@@ -55,10 +55,14 @@ void Game::Update()
     std::vector<Bullet> &bullets = bulletsManager.GetBullets();
 
     lastEnemySpawnTime += GetFrameTime();
-    if (lastEnemySpawnTime >= enemySpawnInterval)
+
+    if (enemies.size() < maxEnemiesAlive)
     {
-        lastEnemySpawnTime = 0.0f;
-        enemies.push_back(std::make_unique<Enemy>(2, GetEnemySpawnPosition(), Vector2{0, 1}, 0.5f, bulletsManager));
+        if (lastEnemySpawnTime >= enemySpawnInterval)
+        {
+            lastEnemySpawnTime = 0.0f;
+            enemies.push_back(std::make_unique<Enemy>(2, GetEnemySpawnPosition(), Vector2{0, 1}, 0.5f, bulletsManager));
+        }
     }
 
     HandlePlayerShoot();
