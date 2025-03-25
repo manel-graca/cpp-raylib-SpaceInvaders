@@ -14,6 +14,7 @@ class BulletsManager
     std::vector<Bullet> &GetBullets();
     Texture2D GetEnemyBulletTexture();
     void SetEnemyBulletTexture(Texture2D texture);
+    void Reset();
 
   private:
     std::vector<Bullet> bullets;

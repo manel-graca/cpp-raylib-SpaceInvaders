@@ -2,17 +2,19 @@
 #include "bullet.hpp"
 #include "obstacle.hpp"
 #include <algorithm>
+#include <iostream>
 #include <raylib.h>
 #include <raymath.h>
 #include <vector>
 
 Game::Game()
-    : player(), bulletsManager(), score(0), lastEnemySpawnTime(0.0f), enemySpawnInterval(2.0f)
+    : player(), bulletsManager(), score(0), lastEnemySpawnTime(0.0f), enemySpawnInterval(2.0f), isPlaying(false)
 {
     textureManager.LoadTexture("bullet", "assets/graphics/bullet1.png");
     textureManager.LoadTexture("enemyBullet", "assets/graphics/bullet.png");
     textureManager.LoadTexture("explosion", "assets/graphics/explosion_red.png");
     textureManager.LoadTexture("obstacle", "assets/graphics/asteroid.png");
+    textureManager.LoadTexture("player", "assets/graphics/tiny-spaceships/tiny_ship1.png");
 
     constexpr int totalEnemyTextures = 19;
     for (int i = 0; i < totalEnemyTextures; i++)
@@ -34,6 +36,9 @@ Game::~Game()
 
 void Game::Draw()
 {
+    if (!IsPlaying())
+        return;
+
     bulletsManager.Draw();
     player.Draw();
 
@@ -55,6 +60,9 @@ void Game::Draw()
 
 void Game::Update()
 {
+    if (!IsPlaying())
+        return;
+
     bulletsManager.Update();
     player.Update();
 
@@ -93,8 +101,15 @@ void Game::Update()
     }
 
     enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
-                                 [](const std::unique_ptr<Enemy> &enemy)
-                                 { return !enemy->IsAlive(); }),
+                                 [this](const std::unique_ptr<Enemy> &enemy)
+                                 {
+                                     if (!enemy->IsAlive())
+                                     {
+                                         AddScore(1);
+                                         return true;
+                                     }
+                                     return false;
+                                 }),
                   enemies.end());
 
     for (auto it = bullets.begin(); it != bullets.end();)
@@ -151,7 +166,7 @@ void Game::HandlePlayerShoot()
     if (IsKeyDown(KEY_SPACE))
     {
         Vector2 playerPos = player.GetPosition();
-        bulletsManager.CreateBullet(1, {playerPos.x + player.GetTexture().width / 4.0f, playerPos.y},
+        bulletsManager.CreateBullet(1, {playerPos.x - player.GetTexture().width / 4.0f, playerPos.y - 5},
                                     10, WHITE, textureManager.GetTexture("bullet"));
     }
 }
@@ -167,7 +182,23 @@ void Game::HandleBulletCollision(Rectangle targetRect, float explosionScale, std
     for (auto &bullet : bulletsManager.GetBullets())
     {
         if (bullet.GetID() != 1)
+        {
+            Rectangle bulletRect = bullet.GetCollisionRect();
+            Rectangle playerRect = player.GetRectangleRect();
+            if (CheckCollisionRecs(playerRect, bulletRect))
+            {
+                explosions.push_back(std::make_unique<ExplosionFX>(bullet.GetPosition(), explosionScale, textureManager.GetTexture("explosion")));
+                bullet.SetIsAlive(false);
+                player.TakeDamage(1);
+                if (!player.IsAlive())
+                {
+                    ResetGame();
+                    return;
+                }
+            }
+
             continue;
+        }
 
         Rectangle bulletRect = bullet.GetCollisionRect();
         if (CheckCollisionRecs(targetRect, bulletRect))
@@ -177,4 +208,21 @@ void Game::HandleBulletCollision(Rectangle targetRect, float explosionScale, std
             onCollision();
         }
     }
+}
+
+void Game::ResetGame()
+{
+    player.Reset();
+    bulletsManager.Reset();
+    enemies.clear();
+    explosions.clear();
+    score = 0;
+    lastEnemySpawnTime = 0.0f;
+    isPlaying = false;
+}
+
+void Game::AddScore(int value)
+{
+    score += value;
+    std::cout << "Score: " << score << std::endl;
 }

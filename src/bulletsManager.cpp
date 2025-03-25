@@ -62,3 +62,8 @@ void BulletsManager::SetEnemyBulletTexture(Texture2D texture)
 {
     enemyBulletTexture = texture;
 }
+
+void BulletsManager::Reset()
+{
+    bullets.clear();
+}

@@ -13,10 +13,24 @@ int main(int, char **)
 
     while (WindowShouldClose() == false)
     {
+        if (IsKeyPressed(KEY_SPACE))
+        {
+            if (!game.IsPlaying())
+            {
+                game.SetPlaying(true);
+            }
+        }
+
         game.Update();
         BeginDrawing();
         ClearBackground(BLACK);
         DrawTexture(starsBgTexture, 0, 0, {255, 255, 255, 70});
+
+        if (!game.IsPlaying())
+        {
+            DrawText("PRESS SPACE TO START", GetScreenWidth() / 2 - MeasureText("PRESS SPACE TO START", 30) / 2, GetScreenHeight() / 2, 30, WHITE);
+        }
+
         game.Draw();
         EndDrawing();
     }

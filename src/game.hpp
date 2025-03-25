@@ -23,14 +23,20 @@ class Game
     BulletsManager bulletsManager;
     Vector2 GetEnemySpawnPosition();
     void HandleBulletCollision(Rectangle target, float targetScale, std::function<void()> onCollision);
+    bool IsPlaying() const { return isPlaying; }
+    void SetPlaying(bool playing) { isPlaying = playing; }
+    int GetScore() const { return score; }
+    void AddScore(int value);
+    void ResetGame();
 
   private:
+    bool isPlaying;
     int score;
     TextureManager textureManager;
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<std::unique_ptr<Obstacle>> obstacles;
     std::vector<std::unique_ptr<ExplosionFX>> explosions;
-    float lastEnemySpawnTime = 0.0f;
-    float enemySpawnInterval = 1.0f;
-    int maxEnemiesAlive = 8;
+    float lastEnemySpawnTime;
+    float enemySpawnInterval;
+    const int maxEnemiesAlive = 8;
 };
