@@ -20,6 +20,8 @@ class Ship
     virtual void Draw();
     Rectangle GetRectangleRect();
     int GetID() const { return id; }
+    virtual void TakeDamage(int dmg);
+    int GetHealth() const { return health; }
 
   protected:
     int id;
@@ -27,5 +29,6 @@ class Ship
     Vector2 position;
     Vector2 direction;
     bool isAlive;
+    int health;
     Texture2D texture;
 };

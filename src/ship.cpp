@@ -36,6 +36,15 @@ void Ship::SetIsAlive(bool isAlive)
     this->isAlive = isAlive;
 }
 
+void Ship::TakeDamage(int dmg)
+{
+    health -= dmg;
+    if (health <= 0)
+    {
+        isAlive = false;
+    }
+}
+
 EScreenBoundary Ship::IsHittingBounds()
 {
     if (position.y < 0)

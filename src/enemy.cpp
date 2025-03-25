@@ -1,7 +1,7 @@
 #include "enemy.hpp"
 
 Enemy::Enemy(int _id, Vector2 _position, Vector2 _direction, float _speed, BulletsManager &_bulletsManager, Texture2D _texture)
-    : Ship(_id, _position, _speed, _direction, true), bulletsManager(_bulletsManager), health(1), fireRate(1.0f), lastShot(0.0f)
+    : Ship(_id, _position, _speed, _direction, true), bulletsManager(_bulletsManager), fireRate(1.0f), lastShot(0.0f)
 {
     texture = _texture; // Use preloaded texture
 }
@@ -20,21 +20,6 @@ void Enemy::Update()
 void Enemy::Draw()
 {
     DrawTexture(texture, position.x, position.y, WHITE);
-}
-
-void Enemy::TakeDamage(int damage)
-{
-    health -= damage;
-
-    if (health <= 0)
-    {
-        SetIsAlive(false);
-    }
-}
-
-int Enemy::GetHealth()
-{
-    return health;
 }
 
 bool Enemy::CanShoot()
