@@ -16,10 +16,9 @@ Obstacle::~Obstacle()
 
 void Obstacle::Draw()
 {
-    if (texture.id != 0)
-        DrawTextureEx(texture, position, 0, size, WHITE);
-    else
-        DrawRectangle(position.x, position.y, size, size, WHITE);
+    Vector2 drawPosition = {position.x - texture.width / 2.0f, position.y - texture.height / 2.0f};
+    DrawTextureEx(texture, drawPosition, 0, size, WHITE);
+    DrawCircleV(position, 5, RED);
 }
 
 Vector2 Obstacle::GetPosition() const
@@ -27,12 +26,7 @@ Vector2 Obstacle::GetPosition() const
     return position;
 }
 
-float Obstacle::GetSize() const
-{
-    return size;
-}
-
 Rectangle Obstacle::GetCollisionRect()
 {
-    return Rectangle{position.x + (float)texture.width / 3, position.y, (float)texture.width / 3, (float)texture.height / 2};
+    return Rectangle{position.x - (float)texture.width / 4, position.y - (float)texture.height / 2, (float)texture.width / 3, (float)texture.height / 2};
 }

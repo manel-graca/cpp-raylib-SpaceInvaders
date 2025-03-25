@@ -7,11 +7,12 @@
 #include <vector>
 
 Game::Game()
-    : player(), bulletsManager(), score(0), lastEnemySpawnTime(0.0f), enemySpawnInterval(1.0f)
+    : player(), bulletsManager(), score(0), lastEnemySpawnTime(0.0f), enemySpawnInterval(2.0f)
 {
     textureManager.LoadTexture("bullet", "assets/graphics/bullet1.png");
     textureManager.LoadTexture("enemyBullet", "assets/graphics/bullet.png");
     textureManager.LoadTexture("explosion", "assets/graphics/explosion_red.png");
+    textureManager.LoadTexture("obstacle", "assets/graphics/asteroid.png");
 
     constexpr int totalEnemyTextures = 19;
     for (int i = 0; i < totalEnemyTextures; i++)
@@ -22,7 +23,6 @@ Game::Game()
     }
 
     bulletsManager.SetEnemyBulletTexture(textureManager.GetTexture("enemyBullet"));
-    enemies.push_back(std::make_unique<Enemy>(2, GetEnemySpawnPosition(), Vector2{0, 1}, 0.5f, bulletsManager, textureManager.GetTexture("enemy2")));
 
     CreateObstacles();
 }
@@ -125,12 +125,21 @@ void Game::Update()
 
 void Game::CreateObstacles()
 {
-    for (int i = 0; i < 3; i++)
-    {
-        float x = (GetScreenWidth() - 375) / 2.0f + i * 145;
-        float y = GetScreenHeight() - 250;
+    Texture2D texture = textureManager.GetTexture("obstacle");
+    float screenWidth = (float)(GetScreenWidth());
+    float screenHeight = (float)(GetScreenHeight());
+    float obstacleWidth = (float)(texture.width);
+    float spacing = 50.0f;
+    int obstacleCount = 3;
 
-        obstacles.push_back(std::make_unique<Obstacle>(i, Vector2{x, y}, 1.0f));
+    float totalWidth = obstacleCount * obstacleWidth + (obstacleCount - 1) * spacing;
+    float groupStartX = (screenWidth - totalWidth) / 2.0f;
+    float y = screenHeight / 2.0f + 175;
+
+    for (int i = 0; i < obstacleCount; ++i)
+    {
+        float x = groupStartX + i * (obstacleWidth + spacing) + obstacleWidth / 2.0f;
+        obstacles.push_back(std::make_unique<Obstacle>(2, Vector2{x, y}, 1.0f));
     }
 }
 
