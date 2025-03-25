@@ -18,7 +18,6 @@ void Obstacle::Draw()
 {
     Vector2 drawPosition = {position.x - texture.width / 2.0f, position.y - texture.height / 2.0f};
     DrawTextureEx(texture, drawPosition, 0, size, WHITE);
-    DrawCircleV(position, 5, RED);
 }
 
 Vector2 Obstacle::GetPosition() const

@@ -17,7 +17,8 @@ Player::Player()
 
 void Player::Draw()
 {
-    DrawTexture(texture, position.x, position.y, WHITE);
+    Vector2 drawPosition = {position.x - texture.width / 2.0f, position.y - texture.height / 2.0f};
+    DrawTextureEx(texture, drawPosition, 0, 1, WHITE);
 }
 
 void Player::Update()
